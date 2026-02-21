@@ -1,21 +1,29 @@
 <?php
-session_start();
-include("../conexion.php");
+header('Content-Type: application/json');
 
-if (!isset($_SESSION['idusuario']) || ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2)) {
-    header("Location: ../login.php");
+$conexion = mysqli_connect("localhost", "root", "", "canchaalmen3");
+if (!$conexion) {
+    echo json_encode(["disponible"=>false, "mensaje"=>"Error en la conexión"]);
     exit;
 }
 
-$tipo = $_POST['tipo_cliente'];
+$fecha = $_POST['fecha'] ?? '';
+$hora = $_POST['hora'] ?? '';
 
-if ($tipo === 'registrado') {
-    $cliente_id = $_POST['cliente_id'];
-} else {
-    mysqli_query($conexion, "
-        INSERT INTO cliente (nombre, telefono, anonimo)
-        VALUES ('{$_POST['nombre_anonimo']}', '{$_POST['telefono_anonimo']}', 1)
-    ");
-    $cliente_id = mysqli_insert_id($conexion);
+if (empty($fecha) || empty($hora)) {
+    echo json_encode(["disponible"=>false, "mensaje"=>"Faltan datos"]);
+    exit;
 }
 
+$sql = "SELECT td.idturnos_dados
+        FROM turnos_dados td
+        INNER JOIN fecha f ON td.fecha_idfecha = f.idfecha
+        WHERE f.fechaN = '$fecha' AND td.hora_idhora = $hora AND td.estado != 'cancelado'";
+
+$res = mysqli_query($conexion, $sql);
+
+if (mysqli_num_rows($res) > 0) {
+    echo json_encode(["disponible"=>false, "mensaje"=>"❌ Turno ocupado"]);
+} else {
+    echo json_encode(["disponible"=>true, "mensaje"=>"✅ Turno disponible"]);
+}
