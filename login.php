@@ -77,3 +77,28 @@ if (password_verify($contrasena, $row['contrasena'])) {
         </form>
     </div>
 </div>
+
+<div class="login-wrapper">
+
+    <div class="login-box">
+
+        <h2>Iniciar sesión</h2>
+
+        <?php if (!empty($error)): ?>
+            <div class="login-error"><?php echo $error; ?></div>
+        <?php endif; ?>
+
+        <form method="post">
+            <input type="text" name="usuario" placeholder="Usuario" required>
+            <input type="password" name="contrasena" placeholder="Contraseña" required>
+            <button type="submit">Ingresar</button>
+        </form>
+
+        <div class="login-links">
+            <a href="recuperacioncontraseña(1).php">¿Olvidaste tu contraseña?</a>
+            <a href="SESION/registrar.php">Crear cuenta</a>
+        </div>
+
+    </div>
+
+</div>
