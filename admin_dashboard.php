@@ -1,30 +1,24 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 session_start();
-
-if (!isset($_SESSION['rol'])) {
-    header("Location: login.php");
-    exit();
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
+    header("Location: ../login.php");
+    exit;
 }
+?>
 
-switch ($_SESSION['rol']) {
+<h1>Panel Administrador</h1>
+<a href="../SESION/logout.php">Cerrar sesión</a>
+<br>
+<a href="../ADMIN/procesar_turno.php">reserva</a>
 
-    case "admin":
-        header("Location: DASHBOARD/admin_dashboard.php");
-        break;
+<form action="procesar_turno.php" method="POST">
 
-    case "empleado":
-        header("Location: DASHBOARD/empleado_dashboard.php");
-        break;
+<label>Tipo de cliente:</label>
+<select name="tipo_cliente" required>
+    <option value="">Seleccionar</option>
+    <option value="registrado">Cliente registrado</option>
+    <option value="anonimo">Cliente anónimo</option>
+</select>
 
-    case "cliente":
-        header("Location: DASHBOARD/cliente_dashboard.php");
-        break;
-
-    default:
-        header("Location: login.php");
-}
-
-exit();
+<input type="submit" value="Guardar turno">
+</form>
