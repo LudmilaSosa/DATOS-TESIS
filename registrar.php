@@ -72,17 +72,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // ---- FORMULARIO ----
     ?>
     <h2>Registro de usuario</h2>
-    <form method="post" action="">
-        Usuario: <input type="text" name="usuario" required><br>
-        Contraseña: <input type="password" name="contrasena" required><br>
-        Confirmar contraseña: <input type="password" name="contrasena2" required><br>
-        Nombre completo: <input type="text" name="nombre" required><br>
-        Teléfono: <input type="text" name="telefono" required><br>
-        Email: <input type="email" name="email" required><br>
-        <input type="submit" value="Registrarse">
+<div class="login-wrapper">
 
-        <p><a href="../index.php">Volver a inicio</a></p>
+    <div class="login-box">
+
+        <h2>Registrar</h2>
+
+        <?php if (!empty($error)): ?>
+            <div class="login-error"><?php echo $error; ?></div>
+        <?php endif; ?>
+
+        <form method="post">
+            <input type="text" name="usuario" placeholder="Usuario" required>
+            <input type="password" name="contrasena" placeholder="Contraseña" required>
+            <input type="password" name="contrasena2" placeholder="Confirmar contraseña"required><br>
+            <input type="text" name="nombre" placeholder="Nombre"required><br>
+            <input type="text" name="telefono" placeholder="Telefono"required><br>
+            <input type="email" name="email" placeholder="Correo electronico" required><br>
+            <button type="submit">Registrarse</button>
+        </form>
+
+              <p><a href="../login.php">Volver </a></p>
     </form>
+
+    </div>
+
+</div>
+
+      
     <?php
 }
 ?>
